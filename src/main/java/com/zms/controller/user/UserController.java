@@ -1,51 +1,33 @@
 package com.zms.controller.user;
 
 
-
-import org.springframework.web.bind.annotation.RequestMapping;
 import com.zms.pojo.user.User;
 import com.zms.service.user.UserService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-
+//类上面使用@Api
+@Api(value = "用户controller", tags = "用户操作接口")
 @Controller
-
-@RequestMapping(value = "/userAction")
+@RequestMapping(value = "/views")
 public class UserController {
     @Autowired
-    private UserService us;
+    private UserService userService;
 
-    @RequestMapping(value="/addUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
     @ResponseBody
-    public void addUser(User user){
-        System.out.println(user.getName());
-
-        boolean isAdd=us.addUser(user);
-        if(isAdd){
-            System.out.println("添加成功");
-            System.out.println(System.getProperty("user.dir"));
-        }else{
-            System.out.println("添加失败");
-        }
+    public String createUser(User user) {
+        user.setLocked(false);
+        user.setSalt("123");
+        userService.createUser(user);
+        return user.toString();
     }
-    @RequestMapping(value="/addUserList",method = RequestMethod.POST)
-    @ResponseBody
-    public void addUserList(){
-        List<User> user=new ArrayList<User>(3);
-        int i=0;
-        for (User u:user) {
-            i++;
-            u.setName("zms"+i);
-            u.setAge(12+i);
-        }
 
-    }
+
+
+
 }
