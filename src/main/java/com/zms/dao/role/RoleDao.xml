@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zms.dao.role.RoleDao">
+
+    <!-- 创建角色 -->
+    <insert id="createRole" parameterType="role" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_roles values (null,#{role},#{description},null)
+    </insert>
+
+    <!-- 删除角色信息 -->
+    <delete id="deleteRole" parameterType="long">
+        delete from sys_roles where id=#{roleId}
+    </delete>
+
+    <!-- 添加角色 权限信息 -->
+    <insert id="correlationPermissions">
+        insert into sys_roles_permissions values(#{roleId},#{permissionId})
+    </insert>
+
+
+</mapper>
