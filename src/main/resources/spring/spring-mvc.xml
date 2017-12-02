@@ -71,8 +71,11 @@
     </bean>
 
     <!-- 扫描注解 -->
-    <context:component-scan base-package="com"/>
+    <context:component-scan base-package="com.zms"/>
 
+    <bean class="com.util.SpringTool"/>
+
+    <bean id="userService" class="com.zms.service.user.UserServiceImpl"/>
 
 
     <!--将静态资源交由默认的servlet处理-->
@@ -87,6 +90,7 @@
     <mvc:resources mapping="/css/**" location="/WEB-INF/statics/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/statics/"/>
 
+
     <!--但是项目部署到linux下发现WEB-INF的静态资源会出现无法解析的情况，但是本地tomcat访问正常，因此建议还是直接把静态资源放在webapp的statics下，映射配置如下-->
     <!--<mvc:resources mapping="/css/**" location="/statics/css/"/>-->
     <!--<mvc:resources mapping="/js/**" location="/statics/js/"/>-->
@@ -98,7 +102,7 @@
     <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀(如果最后一个还是表示文件夹,则最后的斜杠不要漏了) 使用JSP-->
     <!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp" />
     </bean>
 
