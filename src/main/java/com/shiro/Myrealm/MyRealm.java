@@ -1,19 +1,45 @@
 
-package com.shiro.Myrealm;
+package com.shiro.myrealm;
 
-import com.shiro.realm.Realm;
+
+import com.permission.BitPermission;
+import com.sun.xml.internal.bind.v2.TODO;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.permission.WildcardPermission;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.subject.PrincipalCollection;
 
-public class MyRealm  implements Realm{
-    public String getName() {
-        return "myRealm";
+/**
+ * 继承自定义验证授权域 AutorizingRealm
+ */
+public class MyRealm  extends AuthorizingRealm {
+
+    /**
+     * 实现获取用户权限方法
+     * @param principals
+     * @return AuthorzationInfo
+     */
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.addRole("role1");
+        authorizationInfo.addRole("role2");
+        authorizationInfo.addObjectPermission(new BitPermission("+user1+10"));
+        authorizationInfo.addObjectPermission(new WildcardPermission("user1:*"));
+        authorizationInfo.addStringPermission("+user2+10");
+        authorizationInfo.addStringPermission("user2:*");
+        return authorizationInfo;
     }
 
-    public boolean supports(AuthenticationToken token) {
-        return token instanceof UsernamePasswordToken;
-    }
-
-    public AuthenticationInfo getAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    /**
+     * 实现获取用户凭证方法
+     * @param token
+     * @return
+     * @throws AuthenticationException
+     */
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String)token.getPrincipal();  //得到用户名
         String password = new String((char[])token.getCredentials()); //得到密码
         if(!"zhang".equals(username)) {
