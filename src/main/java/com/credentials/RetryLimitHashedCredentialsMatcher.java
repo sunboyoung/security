@@ -8,6 +8,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
     private Cache<String,AtomicInteger> passwordRetryCache;
-
+    private Logger logger;
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
 
         passwordRetryCache = cacheManager.getCache("passwordRetryCache");
@@ -33,15 +34,18 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         String userName = token.getPrincipal().toString();
         System.out.println("获取token中的用户名称:");
         System.out.println(userName);
-        System.out.println("获取判断成功的次数:");
+
         AtomicInteger retryCount = passwordRetryCache.get(userName);
         if (null == retryCount) {
             retryCount = new AtomicInteger(0);
             passwordRetryCache.put(userName,retryCount);
-        }
 
+        }
+        System.out.println("获取密码失败的次数:" + retryCount);
         if (retryCount.incrementAndGet() > 5) {
-            throw new ExcessiveAttemptsException();
+            System.out.println("已经进来了");
+            logger.info("userName: " + userName + " tried to login more than ");
+            throw new ExcessiveAttemptsException("userName: " + userName + " tried to login more than ");
         }
 
         boolean matches = super.doCredentialsMatch(token, info);
