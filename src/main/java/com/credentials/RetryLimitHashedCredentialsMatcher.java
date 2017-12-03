@@ -6,6 +6,7 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import sun.rmi.runtime.Log;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
     private Cache<String,AtomicInteger> passwordRetryCache;
-    private Logger logger;
+    private Logger logger = Logger.getLogger(RetryLimitHashedCredentialsMatcher.class.getName());
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
 
         passwordRetryCache = cacheManager.getCache("passwordRetryCache");
@@ -32,9 +33,6 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         String userName = token.getPrincipal().toString();
-        System.out.println("获取token中的用户名称:");
-        System.out.println(userName);
-
         AtomicInteger retryCount = passwordRetryCache.get(userName);
         if (null == retryCount) {
             retryCount = new AtomicInteger(0);
