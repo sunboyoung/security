@@ -1,5 +1,6 @@
 package com.zms.service.user;
 
+import com.passwordHelper.PasswordHelper;
 import com.zms.dao.user.UserDao;
 import com.zms.pojo.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Error.class)
     public int createUser(User user) {
         // TODO Auto-generated method stub
+        PasswordHelper.encryptPassword(user);
         return userDao.createUser(user);
     }
 

@@ -7,12 +7,12 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
 public class PasswordHelper {
-    private final int hashIterations = 2;
-    private RandomNumberGenerator randomNumberGenerator =
+    private static final int hashIterations = 2;
+    private static RandomNumberGenerator randomNumberGenerator =
             new SecureRandomNumberGenerator();
-    private String algorithmName = "md5";
+    private static String algorithmName = "md5";
 
-    public void encryptPassword(User user) {
+    public static void encryptPassword(User user) {
         user.setSalt(randomNumberGenerator.nextBytes().toHex());
         String newPassword = new SimpleHash(
                 algorithmName,

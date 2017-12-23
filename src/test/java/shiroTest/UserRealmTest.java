@@ -46,7 +46,7 @@ public class UserRealmTest {
     @Test
     public void zms() {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken("zhang", "123");
+        UsernamePasswordToken token = new UsernamePasswordToken("zhangmaosen", "123");
         subject.login(token);
     }
 

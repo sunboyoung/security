@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //类上面使用@Api
 @Api(value = "用户controller", tags = "用户操作接口")
 @Controller
-@RequestMapping(value = "/views")
+@RequestMapping(value = "user")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+    @RequestMapping(value = "createUser", method = RequestMethod.POST)
     @ResponseBody
     public String createUser(User user) {
         user.setLocked(false);
@@ -30,8 +30,7 @@ public class UserController {
         return user.toString();
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login(User user) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(),
@@ -54,7 +53,7 @@ public class UserController {
             // 其他错误，比如锁定，如果想单独处理请单独catch处理
             error = "其他错误：" + e.getMessage();
         }
-        return user.toString();
+        return subject.isAuthenticated() ? "redirect:/index.jsp" : "/b";
     }
 
 }

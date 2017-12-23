@@ -33,15 +33,14 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         String userName = token.getPrincipal().toString();
+        System.out.println("获取token中的用户名称:" + userName);
         AtomicInteger retryCount = passwordRetryCache.get(userName);
         if (null == retryCount) {
             retryCount = new AtomicInteger(0);
             passwordRetryCache.put(userName,retryCount);
 
         }
-        System.out.println("获取密码失败的次数:" + retryCount);
         if (retryCount.incrementAndGet() > 5) {
-            System.out.println("已经进来了");
             logger.info("userName: " + userName + " tried to login more than ");
             throw new ExcessiveAttemptsException("userName: " + userName + " tried to login more than ");
         }

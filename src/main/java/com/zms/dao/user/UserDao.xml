@@ -6,12 +6,83 @@
 <mapper namespace="com.zms.dao.user.UserDao">
 
 
-    <!-- 添加用户 -->
-    <insert id="addUser"  parameterType="user" >
-        insert into user values (#{name},#{age})
+    <!-- 创建用户 -->
+    <insert id="createUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_users values (null,#{username},#{password},#{salt},0)
+    </insert>
+
+    <!-- 更新用户信息 -->
+    <update id="updateUser" parameterType="user">
+        update sys_users
+        <set>
+            <if test="username!=null and username!= '' ">
+                username=#{username}
+            </if>
+            <if test="password!=null and password!= '' ">
+                password=#{password}
+            </if>
+            <if test="salt!=null and salt!= '' ">
+                salt=#{salt}
+            </if>
+            <if test="locked!=null and locked.equals('false')">
+                locked=0
+            </if>
+            <if test="locked!=null and locked.equals('true')">
+                locked=1
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!-- 删除用户信息 -->
+    <delete id="deleteUser" parameterType="long">
+        delete from sys_users where id=#{id}
+    </delete>
+
+    <!-- 添加用户角色信息-->
+    <insert id="correlationRoles">
+        insert into sys_users_roles(user_id,role_id) values (#{userId},#{roleIds})
     </insert>
 
 
+    <!-- 删除用户角色信息 -->
+    <delete id="uncorrelationRoles">
+        delete from sys_users_roles where user_id=#{userId} and role_id=#{roleIds}
+    </delete>
+
+    <!-- 根据userId查出用户信息 -->
+    <select id="findOne" parameterType="long" resultType="user">
+        select * from sys_users where id=#{userId}
+    </select>
+
+    <!-- 根据用户名查出用户信息 -->
+    <select id="findByUsername" parameterType="String" resultType="user">
+        select * from sys_users where username=#{username}
+    </select>
+
+    <!-- 根据用户名查询出角色信息 -->
+    <select id="findRoles" parameterType="String" resultType="String">
+        SELECT r.role FROM sys_roles r
+        LEFT JOIN sys_users_roles ur
+        ON r.id=ur.role_id
+        LEFT JOIN sys_users u
+        ON u.id=ur.user_id
+        WHERE u.username=#{username}
+    </select>
+
+    <!-- 根据用户名查询角色 -->
+    <select id="findPermissions" parameterType="String" resultType="String">
+        SELECT p.permission FROM sys_permissions p
+        LEFT JOIN sys_roles_permissions rp
+        ON p.id=rp.permission_id
+        LEFT JOIN sys_roles r
+        ON r.id=rp.role_id
+        LEFT JOIN sys_users_roles ur
+        ON ur.role_id=r.id
+        LEFT JOIN sys_users u
+        ON u.id=ur.user_id
+        WHERE u.username=#{username}
+    </select>
 
 
 </mapper>

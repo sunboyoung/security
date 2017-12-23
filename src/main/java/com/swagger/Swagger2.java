@@ -24,16 +24,16 @@ public class Swagger2 {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.forezp.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.zms.controller"))//指定controller自动生成对应的controller说明
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("springboot利用swagger构建api文档")
-                .description("简单优雅的restfun风格，http://blog.csdn.net/forezp")
-                .termsOfServiceUrl("http://blog.csdn.net/forezp")
+                .title("swagger2初集成")
+                .description("简单优雅的restful风格，与swagger相比 jar包中自带swagger静态页面")
+                .termsOfServiceUrl("https://github.com/sunboyoung/violenceMS")
                 .version("1.0")
                 .build();
     }

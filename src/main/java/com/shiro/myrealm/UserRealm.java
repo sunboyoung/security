@@ -39,8 +39,12 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         // TODO Auto-generated method stub
         String username = (String)token.getPrincipal();
+        if (userService == null) {
+            System.out.println("Auto service error");
+        } else {
+            System.out.println("Auto");
+        }
         User user = userService.findByUsername(username);
-        System.out.println(user.getUsername());
         if(user == null) {
             throw new UnknownAccountException();//没找到帐号
         }
