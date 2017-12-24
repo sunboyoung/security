@@ -12,13 +12,26 @@
 
     <!-- 删除角色信息 -->
     <delete id="deleteRole" parameterType="long">
-        delete from sys_roles where id=#{roleId}
+        delete from sys_role where id=#{roleId}
     </delete>
 
     <!-- 添加角色 权限信息 -->
     <insert id="correlationPermissions">
-        insert into sys_roles_permissions values(#{roleId},#{permissionId})
+        insert into sys_role_permission values(#{roleId},#{permissionId})
     </insert>
 
+    <!--根据角色编号得到角色标识符列表-->
+    <select id="findRoles" parameterType="String" resultType="String">
+        select * from sys_role where id=#{id}
+    </select>
 
+    <!--根据角色编号得到权限字符串列表-->
+    <select id="findPermissions" parameterType="String" resultType="String">
+        select p.permission from sys_permission p
+        left join sys_resource_permission rp
+        on rp.permission_id=p.id
+        left join sys_role_resource rr
+        on rr.resource_id =rp.resource_id
+        where rr.role_id=#{roleIds}
+    </select>
 </mapper>

@@ -3,6 +3,8 @@ package com.zms.dao.role;
 import com.zms.pojo.role.Role;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Set;
+
 public interface RoleDao {
     /**
      * 创建角色
@@ -31,5 +33,20 @@ public interface RoleDao {
 
     public void correlationPermissions(@Param("roleId") Long roleId, @Param("permissionId") Long permissionId);
 
+    /**
+     * 根据角色编号得到角色标识符列表
+     *
+     * @param roleIds
+     * @return String
+     */
+    Set<String> findRoles(Long... roleIds);
+
+    /**
+     * 根据角色编号得到权限字符串列表
+     *
+     * @param roleIds
+     * @return String
+     */
+    Set<String> findPermissions(Long[] roleIds);
 
 }

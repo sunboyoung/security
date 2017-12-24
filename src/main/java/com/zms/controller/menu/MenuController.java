@@ -1,25 +1,39 @@
 package com.zms.controller.menu;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zms.controller.bind.annotation.CurrentUser;
 import com.zms.pojo.menu.ChildrenMenu;
 import com.zms.pojo.menu.Menu;
+import com.zms.pojo.user.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author zms
+ * @description 关于页面的初始化操作
+ */
 @Controller
 @RequestMapping("menu")
 public class MenuController {
+    /**
+     * 登陆后初始化页面
+     *
+     * @param loginUser
+     * @param model
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     @RequestMapping(value = "initMenu", method = RequestMethod.POST)
     @ResponseBody
-    public String initMenu(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public String initMenu(@CurrentUser User loginUser, Model model) throws UnsupportedEncodingException {
         Menu menu = new Menu();
         long number = 1l;
         menu.setId(number);

@@ -57,31 +57,31 @@
 
     <!-- 根据用户名查出用户信息 -->
     <select id="findByUsername" parameterType="String" resultType="user">
-        select * from sys_users where username=#{username}
+        select * from sys_user where username=#{username}
     </select>
 
     <!-- 根据用户名查询出角色信息 -->
     <select id="findRoles" parameterType="String" resultType="String">
-        SELECT r.role FROM sys_roles r
-        LEFT JOIN sys_users_roles ur
+        SELECT r.role FROM sys_role r
+        LEFT JOIN sys_user_role ur
         ON r.id=ur.role_id
-        LEFT JOIN sys_users u
+        LEFT JOIN sys_user u
         ON u.id=ur.user_id
         WHERE u.username=#{username}
     </select>
 
-    <!-- 根据用户名查询角色 -->
+    <!-- 根据用户名查询权限信息 -->
     <select id="findPermissions" parameterType="String" resultType="String">
-        SELECT p.permission FROM sys_permissions p
-        LEFT JOIN sys_roles_permissions rp
-        ON p.id=rp.permission_id
-        LEFT JOIN sys_roles r
-        ON r.id=rp.role_id
-        LEFT JOIN sys_users_roles ur
-        ON ur.role_id=r.id
-        LEFT JOIN sys_users u
-        ON u.id=ur.user_id
-        WHERE u.username=#{username}
+        select p.permission from sys_permission p
+        left join sys_resource_permission rp
+        on rp.permission_id=p.id
+        left join sys_role_resource rr
+        on rr.resource_id =rp.resource_id
+        left join sys_user_role ur
+        on ur.role_id =rr.role_id
+        left join sys_user u
+        on u.id=ur.user_id
+        where u.username=#{userName}
     </select>
 
 
