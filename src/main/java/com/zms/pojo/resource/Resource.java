@@ -1,17 +1,42 @@
 package com.zms.pojo.resource;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class Resource implements Serializable {
 
     private Long id; //编号
-    private String name; //资源名称
-    private ResourceType type = ResourceType.menu; //资源类型
+
+    private String title; //资源名称
+
+    private ResourceType type; //资源类型
+
     private String url; //资源路径
-    private Long parentId; //父编号
-    private String parentIds; //父编号列表
+
+    private int priority;//排序
+
+    private Long parent_id;//父级id 0为没有
+
+    private String clue;//查找线索
+
+    private int distance;//离顶级菜单的距离
+
+    private String icon;//图标
+
+    private String spread;//是否展开 默认0不展开 1展开
+
     private Boolean available = Boolean.FALSE;
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private List<Resource> children = new ArrayList(); //子级菜单
+
+    public String getTitle() {
+        return title;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -21,12 +46,12 @@ public class Resource implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public void setName(String title) {
+        this.title = title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getPriority() {
+        return priority;
     }
 
     public ResourceType getType() {
@@ -45,21 +70,7 @@ public class Resource implements Serializable {
         this.url = url;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
-    }
 
     public Boolean getAvailable() {
         return available;
@@ -69,12 +80,71 @@ public class Resource implements Serializable {
         this.available = available;
     }
 
-    public boolean isRootNode() {
-        return parentId == 0;
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
-    public String makeSelfAsParentIds() {
-        return getParentIds() + getId() + "/";
+    public Long getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(Long parent_id) {
+        this.parent_id = parent_id;
+    }
+
+    public String getClue() {
+        return clue;
+    }
+
+    public void setClue(String clue) {
+        this.clue = clue;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getSpread() {
+        return spread;
+    }
+
+    public void setSpread(String spread) {
+        this.spread = spread;
+    }
+
+    public List<Resource> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Resource> children) {
+        this.children = children;
+    }
+
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", type=" + type +
+                ", priority='" + priority + '\'' +
+                ",url='" + url + '\'' +
+                ", parentId='" + parent_id + '\'' +
+                ", clue=" + clue +
+                ",distance=" + distance +
+                ", =" + available +
+                '}';
     }
 
     @Override
@@ -94,23 +164,10 @@ public class Resource implements Serializable {
         return id != null ? id.hashCode() : 0;
     }
 
-    @Override
-    public String toString() {
-        return "Resource{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                ", parentId=" + parentId +
-                ", parentIds='" + parentIds + '\'' +
-                ", available=" + available +
-                '}';
-    }
-
     public static enum ResourceType {
         menu("菜单"), button("按钮");
 
         private final String info;
-
         private ResourceType(String info) {
             this.info = info;
         }

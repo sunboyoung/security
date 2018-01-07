@@ -1,12 +1,18 @@
 package com.zms.service.user;
 
 import com.passwordHelper.PasswordHelper;
+import com.zms.dao.role.RoleDao;
 import com.zms.dao.user.UserDao;
+import com.zms.pojo.role.Role;
 import com.zms.pojo.user.User;
+import com.zms.to.page.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -14,6 +20,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private RoleDao roleDao;
     @Transactional(rollbackFor = Error.class)
     public int createUser(User user) {
         // TODO Auto-generated method stub
@@ -64,4 +72,10 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub
         return userDao.findPermissions(userName);
     }
+
+    public List<Map<String, Object>> getUserListByPage(Page page) {
+        return userDao.getUserListByPage(page);
+    }
+
+
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -40,6 +41,18 @@ public class ResourceServiceImpl implements ResourceService {
     public List<Resource> findAll() {
         // TODO Auto-generated method stub
         return resourceDao.findAll();
+    }
+
+    public Set<String> findPermissions(Set<Long> resourceIds) {
+        return resourceDao.findPermissions(resourceIds);
+    }
+
+    public List<Resource> findMenus(Set<String> permissions) {
+        return resourceDao.findMenus(permissions);
+    }
+
+    public List<Resource> findChildrenMenu(Set<String> permissions) {
+        return resourceDao.findChildrenMenu(permissions);
     }
 
 }

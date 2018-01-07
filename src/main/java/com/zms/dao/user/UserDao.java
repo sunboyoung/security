@@ -1,9 +1,12 @@
 package com.zms.dao.user;
 
 import com.zms.pojo.user.User;
+import com.zms.to.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface UserDao {
@@ -80,4 +83,11 @@ public interface UserDao {
      */
     Set<String> findPermissions(String userName);
 
+    /**
+     * 获取所有的用户列表
+     *
+     * @author zms
+     * @date 2018年1月1日 16:15:28
+     */
+    List<Map<String, Object>> getUserListByPage(Page page);
 }

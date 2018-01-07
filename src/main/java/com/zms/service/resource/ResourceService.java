@@ -2,8 +2,11 @@ package com.zms.service.resource;
 
 
 import com.zms.pojo.resource.Resource;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
+
 
 public interface ResourceService {
 
@@ -54,4 +57,33 @@ public interface ResourceService {
      */
     List<Resource> findAll();
 
+    /**
+     * 得到资源对应的权限字符串
+     *
+     * @param resourceIds
+     * @return String
+     * @author zms
+     * @date 2017年12月25日下午4:08:32
+     */
+    Set<String> findPermissions(@Param("set") Set<Long> resourceIds);
+
+    /**
+     * 根据用户权限得到顶级菜单
+     *
+     * @param permissions 权限集合
+     * @return List
+     * @author zms
+     * @date 2017年12月25日下午4:08:47
+     */
+    List<Resource> findMenus(@Param("set") Set<String> permissions);
+
+    /**
+     * 根据用户权限得到子级菜单
+     *
+     * @param permissions 权限集合
+     * @return List
+     * @author zms
+     * @date 2017年12月27日上午11:34:32
+     */
+    List<Resource> findChildrenMenu(@Param("set") Set<String> permissions);
 }

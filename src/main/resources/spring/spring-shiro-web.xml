@@ -118,6 +118,8 @@
         <property name="passwordParam" value="password"/>
         <property name="loginUrl" value="/login.jsp"/>
     </bean>
+    <!-- 登录时拦截器 -->
+    <bean id="sysUserFilter" class="com.filter.SysUserFilter"/>
 
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -127,11 +129,12 @@
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
+                <entry key="sysUser" value-ref="sysUserFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
             <value>
-                /index.jsp = user
+                /index.jsp = authc
                 /authenticated.jsp=authc
                 /unauthorized.jsp = anon
                 /login.jsp = anon
@@ -142,7 +145,9 @@
                 /plugins/**=anon
                 /src/**=anon
                 /css/**=anon
+                /page/**=anon
                 /main.html=anon
+                /**=sysUser
             </value>
         </property>
     </bean>

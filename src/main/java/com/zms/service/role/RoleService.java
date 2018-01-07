@@ -1,5 +1,6 @@
 package com.zms.service.role;
 
+import java.util.List;
 import com.zms.pojo.role.Role;
 
 public interface RoleService {
@@ -31,5 +32,10 @@ public interface RoleService {
      */
     public void correlationPermissions(Long roleId, Long permissionId);
 
-
+    /**
+     * 获取角色列表
+     *
+     * @return List<Role>
+     */
+    public List<Role> getRoleList();
 }

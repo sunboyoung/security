@@ -84,5 +84,16 @@
         where u.username=#{userName}
     </select>
 
-
+    <!-- 获取所有的用户列表 -->
+    <select id="getUserListByPage" resultType="java.util.HashMap">
+        select u.id as id
+        ,u.username as userName
+        ,r.role as role
+        ,r.description as description
+        from sys_user u
+        left join sys_user_role ur
+        on ur.user_id=u.id
+        left join sys_role r
+        on r.id=ur.role_id
+    </select>
 </mapper>

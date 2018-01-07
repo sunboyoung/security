@@ -1,5 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: 懋小方
+  Date: 2018/1/1
+  Time: 13:48
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
     String path = request.getContextPath();
@@ -7,11 +13,11 @@
 %>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" content="content">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Login - KitAdminCore</title>
-    <script>
+    <script type="javascript">
         if (window != window.top) top.location.href = self.location.href;
     </script>
     <link href="<%=basePath%>plugins/layui/css/layui.css" rel="stylesheet"/>
@@ -91,12 +97,12 @@
                     <h1>Shiro LOGIN</h1>
                 </header>
                 <div class="kit-login-main">
-                    <form action="<%=basePath%>user/login" class="layui-form" method="post">
+                    <form id="loginForm" action="" onsubmit="return false" class="layui-form" method="post">
                         <div class="layui-form-item">
                             <label class="kit-login-icon">
                                 <i class="layui-icon">&#xe612;</i>
                             </label>
-                            <input type="text" name="username" lay-verify="userName" autocomplete="off"
+                            <input type="text" name="username" lay-verify="username" autocomplete="off"
                                    placeholder="这里输入用户名." class="layui-input">
                         </div>
                         <div class="layui-form-item">
@@ -127,34 +133,63 @@
 <!-- /container -->
 
 
-<script src="<%=basePath%>plugins/layui/layui.js"></script>
-<script src="<%=basePath%>plugins/sideshow/js/TweenLite.min.js"></script>
-<script src="<%=basePath%>plugins/sideshow/js/EasePack.min.js"></script>
-<script src="<%=basePath%>plugins/sideshow/js/rAF.js"></script>
-<script src="<%=basePath%>plugins/sideshow/js/demo-1.js"></script>
+<script src="<%=basePath%>build/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/layui/layui.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/sideshow/js/TweenLite.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/sideshow/js/EasePack.min.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/sideshow/js/rAF.js" type="text/javascript"></script>
+<script src="<%=basePath%>plugins/sideshow/js/demo-1.js" type="text/javascript"></script>
 
 
-<script>
-    layui.use(['layer', 'form'], function () {
+<script type="text/javascript">
+    layui.use(['layer', 'form', 'jquery'], function () {
         var layer = layui.layer,
             $ = layui.jquery,
             form = layui.form;
+
         //自定义验证规则
         form.verify({
-            userName: function (value) {
-                if (value == "" || value.length == 0) {
+            username: function (value) {
+                if (value === "" || value.length === 0) {
                     return '请输入登录名称';
                 }
             }
             , password: [/(.+){3,12}$/, '密码必须3到12位']
             , content: function (value) {
                 layedit.sync(editIndex);
+
             }
+        });
+        form.on('submit(login)', function (data) {
+            url = "<%=basePath%>user/login";
+            $.ajax({
+                type: "POST",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: url,
+                data: $('#loginForm').serialize(),
+                success: function (result) {
+                    console.log(result);
+                    if (result.code == 0) {
+                        window.location.href = "<%=basePath%>index.jsp"
+                        return true;
+                    } else {
+                        layer.msg(result.msg, {icon: 2});
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            return false;
         });
 
 
     });
+
+
 </script>
+
 
 </body>
 

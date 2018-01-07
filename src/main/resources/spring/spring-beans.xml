@@ -5,6 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+
     <!-- 引入jdbc配置文件 -->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -31,8 +32,10 @@
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
-
     <bean id="userService" class="com.zms.service.user.UserServiceImpl"/>
 
+    <bean id="roleService" class="com.zms.service.role.RoleServiceImpl"/>
+
+    <bean id="resourceService" class="com.zms.service.resource.ResourceServiceImpl"/>
 
 </beans>

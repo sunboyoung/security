@@ -2,8 +2,10 @@ package com.zms.dao.resource;
 
 
 import com.zms.pojo.resource.Resource;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ResourceDao {
 
@@ -54,5 +56,36 @@ public interface ResourceDao {
      * @date 2017年12月22日下午3:47:46
      */
     List<Resource> findAll();
+
+    /**
+     * 得到资源对应的权限字符串
+     *
+     * @param resourceIds
+     * @return String
+     * @author zms
+     * @date 2017年12月25日下午4:08:32
+     */
+    Set<String> findPermissions(@Param("set") Set<Long> resourceIds);
+
+    /**
+     * 根据用户权限得到顶级菜单
+     *
+     * @param permissions
+     * @return List
+     * @author zms
+     * @date 2017年12月25日下午4:08:47
+     */
+    List<Resource> findMenus(@Param("set") Set<String> permissions);
+
+    /**
+     * 根据用户权限得到子级菜单
+     *
+     * @param permissions
+     * @return List
+     * @author zms
+     * @date 2017年12月27日上午11:33:36
+     */
+    List<Resource> findChildrenMenu(@Param("set") Set<String> permissions);
+
 
 }

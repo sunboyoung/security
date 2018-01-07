@@ -34,4 +34,12 @@
         on rr.resource_id =rp.resource_id
         where rr.role_id=#{roleIds}
     </select>
+
+    <!-- 获取角色列表 -->
+    <select id="getRoleList" resultType="role">
+        select r.id as id ,
+        r.role as role,
+        r.description as description
+        from sys_role r
+    </select>
 </mapper>

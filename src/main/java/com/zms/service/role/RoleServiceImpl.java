@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService {
     @Autowired
@@ -27,4 +29,10 @@ public class RoleServiceImpl implements RoleService {
         // TODO Auto-generated method stub
         roleDao.correlationPermissions(roleId, permissionId);
     }
+
+    public List<Role> getRoleList() {
+        return roleDao.getRoleList();
+    }
+
+
 }

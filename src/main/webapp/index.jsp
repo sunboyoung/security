@@ -1,6 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
@@ -62,7 +61,7 @@
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://m.zhengjinfan.cn/images/0.jpg" class="layui-nav-img"> Van
+                    <img src="http://m.zhengjinfan.cn/images/0.jpg" class="layui-nav-img"> zms
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" kit-target
@@ -81,59 +80,42 @@
             <div class="kit-side-fold"><i class="fa fa-navicon" aria-hidden="true"></i></div>
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="kitNavbar" kit-navbar>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 基本元素</span></a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" kit-target
-                               data-options="{url:'test.html',icon:'&#xe6c6;',title:'表格',id:'1'}">
-                                <i class="layui-icon">&#xe6c6;</i><span> 表格</span></a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" data-url="form.html" data-icon="fa-user" data-title="表单" kit-target
-                               data-id='2'><i class="fa fa-user" aria-hidden="true"></i><span> 表单</span></a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" data-url="nav.html" data-icon="&#xe628;" data-title="导航栏" kit-target
-                               data-id='3'><i class="layui-icon">&#xe628;</i><span> 导航栏</span></a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" data-url="list4.html" data-icon="&#xe614;" data-title="列表四"
-                               kit-target data-id='4'><i class="layui-icon">&#xe614;</i><span> 列表四</span></a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" kit-target
-                               data-options="{url:'https://www.baidu.com',icon:'&#xe658;',title:'百度一下',id:'5'}"><i
-                                    class="layui-icon">&#xe658;</i><span> 百度一下</span></a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 组件</span></a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" kit-target
-                               data-options="{url:'navbar.html',icon:'&#xe658;',title:'Navbar',id:'6'}"><i
-                                class="layui-icon">&#xe658;</i><span> Navbar</span></a></dd>
-                        <dd><a href="javascript:;" kit-target
-                               data-options="{url:'tab.html',icon:'&#xe658;',title:'TAB',id:'7'}"><i class="layui-icon">&#xe658;</i><span> Tab</span></a>
-                        </dd>
-                        <dd><a href="javascript:;" kit-target
-                               data-options="{url:'onelevel.html',icon:'&#xe658;',title:'OneLevel',id:'50'}"><i
-                                class="layui-icon">&#xe658;</i><span> OneLevel</span></a></dd>
-                        <dd><a href="javascript:;" kit-target
-                               data-options="{url:'app.html',icon:'&#xe658;',title:'App',id:'8'}"><i class="layui-icon">&#xe658;</i><span> app.js主入口</span></a>
-                        </dd>
-                    </dl>
-                </li>
             </ul>
         </div>
     </div>
+
+
     <div class="layui-body" id="container">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;"><i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63e;</i>
-            请稍等...
-        </div>
+        <!--  <div class="layui-tab layui-tab-card kit-tab" lay-filter="kitTab">
+               <ul class="layui-tab-title">
+               <li class="layui-this" lay-id="-1" data-url="main.jsp">
+               <i class="layui-icon">
+               </i>主页</li>
+              </ul>
+             <div class="kit-tab-tool">操作&nbsp;
+                 <i class="fa fa-caret-down"></i>
+             </div>
+
+              <div class="kit-tab-tool-body layui-anim layui-anim-upbit">
+                  <ul>
+                   <li class="kit-item" data-target="refresh">刷新当前选项卡</li>
+                   <li class="kit-line"></li>
+                   <li class="kit-item" data-target="closeCurrent">关闭当前选项卡</li>
+                   <li class="kit-item" data-target="closeOther">关闭其他选项卡</li>
+                   <li class="kit-line"></li>
+                   <li class="kit-item" data-target="closeAll">关闭所有选项卡</li>
+                  </ul>
+              </div>
+
+              <div class="layui-tab-content">
+               <div class="layui-tab-item layui-show" lay-item-id="-1">
+                 <iframe src="main.jsp" style="height: 20000px;"></iframe>
+                </div>
+              </div>
+
+         </div> -->
     </div>
+
 
     <div class="layui-footer">
         <!-- 底部固定区域 -->
@@ -141,46 +123,48 @@
         <a href="http://kit.zhengjinfan.cn/">kit.zhengjinfan.cn/</a> MIT license
     </div>
 </div>
+
+
 <script type="text/javascript">
     var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
     document.write(unescape("%3Cspan id='cnzz_stat_icon_1264021086'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1264021086%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
 </script>
-<script src="${basePath}plugins/layui/layui.js"></script>
-<script>
+<script src="${basePath}plugins/layui/layui.js" type="text/javascript"></script>
+<script type="text/javascript">
     var message;
     layui.config({
         base: '<%=basePath%>build/js/',
-        version: '1.0.1'
-    }).use(['app', 'message', 'navbar', 'tab'], function () {
+        version: 'false'
+    }).use(['app', 'message', 'navbar', 'tab', 'element'], function () {
         var app = layui.app,
             $ = layui.jquery,
             tab = layui.tab,
             navbar = layui.navbar,
+            element = layui.element,
             layer = layui.layer;
         //将message设置为全局以便子页面调用
         message = layui.message;
-        //navbar加载方式二，设置远程地址加载
-        tab.set({
-            renderType: 'iframe',
-            mainUrl: 'main.jsp',
-            openWait: false,
-            elem: '#container',
 
-            onSwitch: function (data) { //选项卡切换时触发
-                //console.log(data.layId); //lay-id值
-                //console.log(data.index); //得到当前Tab的所在下标
-                //console.log(data.elem); //得到当前的Tab大容器
-            },
-            closeBefore: function (data) { //关闭选项卡之前触发
-                // console.log(data);
-                // console.log(data.icon); //显示的图标
-                // console.log(data.id); //lay-id
-                // console.log(data.title); //显示的标题
-                // console.log(data.url); //跳转的地址
-                return true; //返回true则关闭
-            }
-        }).render(
-        );
+        <%--    $.post({
+               type: "POST",//方法类型
+               dataType: "text",//预期服务器返回的数据类型
+               url: "<%=basePath%>menu/initMenu",
+               success: function (result) {
+                   console.log(result);
+               },
+               error : function(error) {
+                  layer.msg(error);
+               }
+            }); --%>
+
+        //主入口 渲染iframe 第一个主页
+        tab.set({
+            mainUrl: 'main.jsp',
+            renderType: 'iframe',
+            title: '主页',
+            elem: '#container'
+        }).render();
+        //navbar加载左侧导航栏
         navbar.set({
             remote: {
                 url: 'menu/initMenu',
@@ -188,15 +172,13 @@
                 jsonp: false
             }
         }).render(function (data) {
+            prefix = "<%=basePath%>";
+            data.url = prefix + data.url;
             tab.tabAdd(data);
         });
 
-        //主入口
-        app.set({
-            type: 'iframe'
-        }).init();
-
-        $('#pay').on('click', function () {
+        /* kitAdmin支付
+         $('#pay').on('click', function() {
             layer.open({
                 title: false,
                 type: 1,
@@ -205,11 +187,13 @@
                 shadeClose: true
             });
         });
+         */
         $('dl.skin > dd').on('click', function () {
             var $that = $(this);
             var skin = $that.children('a').data('skin');
             switchSkin(skin);
         });
+
         var setSkin = function (value) {
                 layui.data('kit_skin', {
                     key: 'skin',
@@ -229,6 +213,8 @@
                 switchSkin(skin === undefined ? 'default' : skin);
             }();
     });
+
+
 </script>
 </body>
 

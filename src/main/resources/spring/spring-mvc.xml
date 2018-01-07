@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <!-- 自定义注解 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 配置注解扫描 -->
     <context:component-scan base-package="com.zms.controller" use-default-filters="false">
@@ -19,11 +22,13 @@
 
 
     <!-- 给放行的静态资源配置映射 -->
-    <mvc:resources mapping="/build/**" location="/build/" cache-period="2592000"/>
-    <mvc:resources mapping="/components/**" location="/components/" cache-period="2592000"/>
-    <mvc:resources mapping="/datas/**" location="/datas/" cache-period="2592000"/>
-    <mvc:resources mapping="/plugins/**" location="/plugins/" cache-period="2592000"/>
-    <mvc:resources mapping="/src/**" location="/src/" cache-period="2592000"/>
+    <mvc:resources mapping="/build/**" location="/build/"/>
+    <mvc:resources mapping="/components/**" location="/components/"/>
+    <mvc:resources mapping="/datas/**" location="/datas/"/>
+    <mvc:resources mapping="/plugins/**" location="/plugins/"/>
+    <mvc:resources mapping="/src/**" location="/src/"/>
+    <mvc:resources mapping="/page/**" location="/page/" cache-period="2592000"/>
+    <mvc:resources mapping="/css/**" location="/css/" cache-period="2592000"/>
     <mvc:annotation-driven/>
     <mvc:view-controller path="/" view-name="index"/>
 
@@ -33,11 +38,25 @@
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <bean id="fastJsonHttpMessageConverter"
+                  class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
                         <value>application/json;charset=UTF-8</value>
                     </list>
                 </property>
             </bean>
         </mvc:message-converters>
+        <!--注入自定义注解-->
+        <mvc:argument-resolvers>
+            <bean class="com.zms.controller.bind.method.CurrentUserMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
 

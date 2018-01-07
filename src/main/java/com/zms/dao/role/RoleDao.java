@@ -3,6 +3,7 @@ package com.zms.dao.role;
 import com.zms.pojo.role.Role;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RoleDao {
@@ -49,4 +50,10 @@ public interface RoleDao {
      */
     Set<String> findPermissions(Long[] roleIds);
 
+    /**
+     * 获取角色列表
+     *
+     * @return role
+     */
+    List<Role> getRoleList();
 }

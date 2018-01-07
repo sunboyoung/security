@@ -1,7 +1,10 @@
 package com.zms.service.user;
 
 import com.zms.pojo.user.User;
+import com.zms.to.page.Page;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -78,5 +81,11 @@ public interface UserService {
      */
     Set<String> findPermissions(String userName);
 
+    /**
+     * 获取所有的用户列表
+     *
+     * @return user
+     */
+    List<Map<String, Object>> getUserListByPage(Page page);
 }
 
