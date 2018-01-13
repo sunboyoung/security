@@ -29,5 +29,20 @@ public class MenuUtil {
         return json;
     }
 
+    public static List<Resource> initTree(List<Resource> menu, List<Resource> childrenMenu, List<Resource> button) {
+        for (int index = 0; index < menu.size(); index++) {
+            for (int childrenIndex = 0; childrenIndex < childrenMenu.size(); childrenIndex++) {
+                for (int buttonIndex = 0; buttonIndex < button.size(); buttonIndex++) {
+                    if (childrenMenu.get(childrenIndex).getId() == button.get(buttonIndex).getParent_id()) {
+                        childrenMenu.get(childrenIndex).getChildren().add(button.get(buttonIndex));
+                    }
+                }
+                if (menu.get(index).getId() == childrenMenu.get(childrenIndex).getParent_id()) {
+                    menu.get(index).getChildren().add(childrenMenu.get(childrenIndex));
+                }
+            }
+        }
 
+        return menu;
+    }
 }

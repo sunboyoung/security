@@ -1,7 +1,7 @@
 var $ = layer.jquery;
 form = layer.form;
 
-function addRole(url) {
+function openRole(url) {
     layer.open({
         type: 2
         , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset

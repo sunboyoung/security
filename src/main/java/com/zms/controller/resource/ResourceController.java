@@ -1,11 +1,13 @@
 package com.zms.controller.resource;
 
+import com.alibaba.fastjson.JSONObject;
 import com.util.MenuUtil;
 import com.zms.controller.bind.annotation.CurrentUser;
 import com.zms.pojo.resource.Resource;
 import com.zms.pojo.user.User;
 import com.zms.service.resource.ResourceService;
 import com.zms.service.user.UserService;
+import com.zms.to.responseBean.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,4 +53,17 @@ public class ResourceController {
         return menu;
     }
 
+    @RequestMapping(value = "initTree", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBean initTree(@CurrentUser User user) throws UnsupportedEncodingException {
+
+        Set<String> permissions = userService.findPermissions("zms");
+        List<Resource> menu = resourceService.findMenus(permissions);
+        List<Resource> childrenMenu = resourceService.findChildrenMenu(permissions);
+        List<Resource> button = resourceService.findChildrenButton(permissions);
+        List<Resource> result = MenuUtil.initTree(menu, childrenMenu, button);
+        String json = JSONObject.toJSONString(result);
+        System.out.println(json);
+        return new ResponseBean(ResponseBean.SUCCESS, "哟西");
+    }
 }

@@ -1,5 +1,7 @@
 package shiroTest;
 
+import com.alibaba.fastjson.JSONObject;
+import com.util.MenuUtil;
 import com.zms.dao.resource.ResourceDao;
 import com.zms.dao.user.UserDao;
 import com.zms.pojo.resource.Resource;
@@ -47,6 +49,18 @@ public class Regis {
         List<Resource> resources = resourceService.findMenus(permissions);
         System.out.println(resources.size());
 
+
+    }
+
+    @Test
+    public void foreach() {
+        Set<String> permissions = userService.findPermissions("zms");
+        List<Resource> menu = resourceService.findMenus(permissions);
+        List<Resource> childrenMenu = resourceService.findChildrenMenu(permissions);
+        List<Resource> button = resourceService.findChildrenButton(permissions);
+        List<Resource> result = MenuUtil.initTree(menu, childrenMenu, button);
+        String json = JSONObject.toJSONString(result);
+        System.out.println(json);
 
     }
 }

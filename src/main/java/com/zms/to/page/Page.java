@@ -14,15 +14,18 @@ public class Page {
     //    是否检测当前页码的合法性（大于最大页码或小于最小页码都不合法）
     private Boolean defaultCheckFlag;
     //    当前sql查询的总记录数，回填
-    private Integer totalCount;
+    private Integer totalCount = 1;
     //    当前sql查询实现分页后的总页数，回填
-    private Integer totalPageNo;
+    private Integer totalPageNo = 1;
 
     public Integer getPageNo() {
         return pageNo;
     }
 
     public void setPageNo(Integer pageNo) {
+        if (pageNo > totalPageNo) {
+            pageNo = 1;
+        }
         if (pageNo == null) {
             pageNo = 0;
         }

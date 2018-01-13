@@ -75,7 +75,7 @@
             , table = layui.table;
         url = '<%=basePath%>';
         $("#add").click(function () {
-            initUser(url);
+            openRole(url);
         })
     });
 </script>

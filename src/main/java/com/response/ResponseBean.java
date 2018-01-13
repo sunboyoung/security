@@ -37,4 +37,6 @@ public class ResponseBean
     public void setData(List<?> data) {
         this.data = data;
     }
+
+
 }

@@ -87,5 +87,12 @@ public interface ResourceDao {
      */
     List<Resource> findChildrenMenu(@Param("set") Set<String> permissions);
 
-
+    /**
+     * 根据用户权限得到按钮操作
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/9 21:07
+     */
+    List<Resource> findChildrenButton(@Param("set") Set<String> permissions);
 }

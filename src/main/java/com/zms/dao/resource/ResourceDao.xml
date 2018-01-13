@@ -108,4 +108,26 @@
         AND r.type='menu' AND r.parent_id>0 AND r.distance=2;
     </select>
 
+    <select id="findChildrenButton" parameterType="String" resultType="resource">
+        SELECT
+        r.id AS id,
+        r.name AS title,
+        IFNULL (r.url,'') AS url,
+        IFNULL(r.description,'暂无描述') AS description,
+        r.spread AS spread,
+        r.clue AS clue,
+        r.distance AS distance,
+        r.parent_id AS parent_id,
+        r.icon AS icon
+        FROM sys_resource r
+        LEFT JOIN sys_resource_permission rp
+        ON rp.resource_id =r.id
+        LEFT JOIN sys_permission p
+        ON p.id=rp.permission_id
+        WHERE p.permission IN
+        <foreach collection="set" index="index" item="permissions" open="(" separator="," close=")">
+            #{permissions}
+        </foreach>
+        AND r.type='button' AND r.parent_id>0 AND r.distance=3;
+    </select>
 </mapper>

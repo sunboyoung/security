@@ -86,4 +86,13 @@ public interface ResourceService {
      * @date 2017年12月27日上午11:34:32
      */
     List<Resource> findChildrenMenu(@Param("set") Set<String> permissions);
+
+    /**
+     * 根据用户权限得到操作按钮
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/9 20:58
+     */
+    List<Resource> findChildrenButton(@Param("set") Set<String> permissions);
 }
