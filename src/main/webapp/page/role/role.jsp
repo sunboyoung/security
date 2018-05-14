@@ -37,7 +37,7 @@
         <legend>数据列表</legend>
         <div class="layui-field-box layui-form">
             <table class="layui-table"
-                   lay-data="{height:310, url:'<%=basePath%>role/getRoleList', page:true, id:'initUser', even: 'true',size:'lg',method:'POST'}"
+                   lay-data="{height:500, url:'<%=basePath%>role/getRoleList', page:true, id:'initUser', even: 'true',size:'lg',method:'POST'}"
                    lay-filter="initUser">
                 <thead>
                 <tr>

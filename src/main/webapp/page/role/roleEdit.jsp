@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<%=basePath%>css/global.css" media="all">
     <link rel="stylesheet" href="<%=basePath%>plugins/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=basePath%>css/table.css"/>
+    <link rel="stylesheet" href="<%=basePath%>css/ztree/zTreeStyle/zTreeStyle.css"/>
 </head>
 <body>
 <blockquote class="layui-elem-quote layui-text">
@@ -41,8 +42,9 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">权限</label>
-        <div class="layui-input-inline" id="permission">
-
+        <div class="layui-input-inline">
+            <div class="ztree" id="permission">
+            </div>
         </div>
     </div>
     <!--   <div class="layui-form-item">
@@ -74,50 +76,66 @@
         </div>
     </div>
 </form>
-<script type="text/javascript" src="<%=basePath%>plugins/layui/layui.all.js"></script>
-<script type="text/javascript" src="<%=basePath%>plugins/layui/lay/modules/jquery.js"></script>
-<script type="text/javascript" src="<%=basePath%>page/user/js/userEdit.js"></script>
+
+<script type="text/javascript" src="<%=basePath%>plugins/layui/layui.js"></script>
+<script type="text/javascript" src="<%=basePath%>page/role/js/roleEdit.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/ztree/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>js/ztree/jquery.ztree.core.js"></script>
 <script>
     //Demo
     layui.config({
         base: '<%=basePath%>build/js/',
         version: 'false'
-    }).use(['form', 'tree'], function () {
-        var $ = layui.jquery,
-            form = layui.form,
-            tree = layui.tree;
+    }).use(['form'], function () {
+        form = layui.form;
+        var url = "<%=basePath%>";
         /*   var html="";
               html+='<input type="checkbox" name="role" title="后端开发人员ss" value="5">';
               console.log(html);
               $("#role").append(html);
          */
+        var setting = {
+            async: {
+                enable: true,//采用异步加载
+                type: "POST",
+                url: url + "menu/initMenu",
+                dataType: "json"
+            },
+            data: {
+                key: {
+                    name: "title"
+                }
+            },
 
-        tree({
-            elem: '#permission' //传入元素选择器
-            , nodes: [{ //节点
-                name: '父节点1'
-                , children: [{
-                    name: '子节点11'
-                }, {
-                    name: '子节点12'
-                }]
-            }, {
-                name: '父节点2（可以点左侧箭头，也可以双击标题）'
-                , children: [{
-                    name: '子节点21'
-                    , children: [{
-                        name: '子节点211'
-                    }]
-                }]
-            }], click: function (node) {
-                console.log(node) //node即为当前点击的节点数据
-            }
-        });
-        url = '<%=basePath%>';
-        addRole(url);
+        };
+        $.fn.zTree.init($("#permission"), setting, null);
+
+        /* tree({
+             elem: '#permission' //传入元素选择器
+             , nodes: [{ //节点
+                 name: '父节点1'
+                 , children: [{
+                     name: '子节点11'
+                 }, {
+                     name: '子节点12'
+                 }]
+             }, {
+                 name: '父节点2（可以点左侧箭头，也可以双击标题）'
+                 , children: [{
+                     name: '子节点21'
+                     , children: [{
+                         name: '子节点211'
+                     }]
+                 }]
+             }], click: function (node) {
+                 console.log(node) //node即为当前点击的节点数据
+             }
+         });*/
+
         //监听提交
         form.on('submit(addRole)', function (data) {
             var roleIds = new Array();
+
             $("input[name='role']").each(function (i, d) {
                 if (d.checked) {
                     roleIds.push(d.value);
@@ -134,6 +152,7 @@
         });
     });
 </script>
+
 </body>
 
 

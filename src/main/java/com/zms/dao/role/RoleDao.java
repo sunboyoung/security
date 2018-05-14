@@ -56,4 +56,11 @@ public interface RoleDao {
      * @return role
      */
     List<Role> getRoleList();
+
+    /**
+     * 根据用户获取角色集合
+     *
+     * @return
+     */
+    Set<Long> findRoleByUser(Long id);
 }

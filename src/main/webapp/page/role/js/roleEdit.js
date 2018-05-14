@@ -1,5 +1,4 @@
-var $ = layer.jquery;
-form = layer.form;
+
 
 function addRole(url) {
     $.ajax({

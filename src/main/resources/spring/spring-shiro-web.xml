@@ -145,6 +145,7 @@
                 /plugins/**=anon
                 /src/**=anon
                 /css/**=anon
+                /js/**=anon
                 /page/**=anon
                 /main.html=anon
                 /**=sysUser

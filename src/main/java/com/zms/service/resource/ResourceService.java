@@ -95,4 +95,11 @@ public interface ResourceService {
      * @Date:2018/1/9 20:58
      */
     List<Resource> findChildrenButton(@Param("set") Set<String> permissions);
+
+    /**
+     * @Author:zms
+     * @Description:根据父id查询子资源
+     * @Date:2018/4/12 17:54
+     */
+    List<Resource> findChildrenResource(Long id);
 }

@@ -3,6 +3,7 @@ package com.zms.service.user;
 import com.passwordHelper.PasswordHelper;
 import com.zms.dao.role.RoleDao;
 import com.zms.dao.user.UserDao;
+import com.zms.pojo.resource.Resource;
 import com.zms.pojo.role.Role;
 import com.zms.pojo.user.User;
 import com.zms.to.page.Page;
@@ -75,6 +76,18 @@ public class UserServiceImpl implements UserService {
 
     public List<Map<String, Object>> getUserListByPage(Page page) {
         return userDao.getUserListByPage(page);
+    }
+
+    public Set<Integer> findPermissionIdByUserName(String userName) {
+        return userDao.findPermissionIdByUserName(userName);
+    }
+
+    public List<Resource> findResourceByPermissionId(Set<Integer> permissionIds) {
+        return userDao.findResourceByPermissionId(permissionIds);
+    }
+
+    public List<Resource> findResourceByParentId(Long parentId) {
+        return userDao.findResourceByParentId(parentId);
     }
 
 

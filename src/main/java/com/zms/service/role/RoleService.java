@@ -1,6 +1,8 @@
 package com.zms.service.role;
 
 import java.util.List;
+import java.util.Set;
+
 import com.zms.pojo.role.Role;
 
 public interface RoleService {
@@ -38,4 +40,12 @@ public interface RoleService {
      * @return List<Role>
      */
     public List<Role> getRoleList();
+
+    /**
+     * 根据用户获取角色id
+     *
+     * @param id
+     * @return
+     */
+    public Set<Long> findRoleByUser(Long id);
 }

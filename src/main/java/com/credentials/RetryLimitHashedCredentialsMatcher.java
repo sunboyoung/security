@@ -26,14 +26,12 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
     public RetryLimitHashedCredentialsMatcher(CacheManager cacheManager) {
 
         passwordRetryCache = cacheManager.getCache("passwordRetryCache");
-        System.out.println("缓存初始化成功");
         // TODO: handle exception
 
     }
 
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         String userName = token.getPrincipal().toString();
-        System.out.println("获取token中的用户名称:" + userName);
         AtomicInteger retryCount = passwordRetryCache.get(userName);
         if (null == retryCount) {
             retryCount = new AtomicInteger(0);

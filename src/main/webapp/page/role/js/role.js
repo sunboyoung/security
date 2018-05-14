@@ -1,6 +1,3 @@
-var $ = layer.jquery;
-form = layer.form;
-
 function openRole(url) {
     layer.open({
         type: 2

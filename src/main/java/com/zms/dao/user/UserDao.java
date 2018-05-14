@@ -1,5 +1,6 @@
 package com.zms.dao.user;
 
+import com.zms.pojo.resource.Resource;
 import com.zms.pojo.user.User;
 import com.zms.to.page.Page;
 import org.apache.ibatis.annotations.Param;
@@ -76,7 +77,7 @@ public interface UserDao {
     Set<String> findRoles(String userName);
 
     /**
-     * 根据用户名查询权限信息
+     * 根据用户名查询操作权限信息
      *
      * @author zms
      * @date 2017年11月27日下午6:13:28
@@ -90,4 +91,32 @@ public interface UserDao {
      * @date 2018年1月1日 16:15:28
      */
     List<Map<String, Object>> getUserListByPage(Page page);
+
+    /*************************改版后方法*************************/
+    /**
+     * 根据用户名获取资源权限id
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 15:20
+     */
+    Set<Integer> findPermissionIdByUserName(String userName);
+
+    /**
+     * 根据资源权限id获取资源
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 15:24
+     */
+    List<Resource> findResourceByPermissionId(@Param("set") Set<Integer> permissionIds);
+
+    /**
+     * 通过父id获取资源列表
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 16:51
+     */
+    List<Resource> findResourceByParentId(Long parentId);
 }

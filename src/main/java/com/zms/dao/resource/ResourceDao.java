@@ -95,4 +95,23 @@ public interface ResourceDao {
      * @Date:2018/1/9 21:07
      */
     List<Resource> findChildrenButton(@Param("set") Set<String> permissions);
+
+    //*************************改版后的方法****************************//
+
+    /**
+     * 根据用户角色获取资源权限
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 14:48
+     */
+    List<Resource> findResourceByRole(@Param("set") Set<String> roles);
+
+
+    /**
+     * @Author:zms
+     * @Description: 根据父id查询子资源
+     * @Date:2018/4/12 17:47
+     */
+    List<Resource> findChildrenResource(Long id);
 }

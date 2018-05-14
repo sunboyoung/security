@@ -1,7 +1,9 @@
 package com.zms.service.user;
 
+import com.zms.pojo.resource.Resource;
 import com.zms.pojo.user.User;
 import com.zms.to.page.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -87,5 +89,33 @@ public interface UserService {
      * @return user
      */
     List<Map<String, Object>> getUserListByPage(Page page);
+
+    /***********************新添加的方法**************************/
+    /**
+     * 根据用户名获取资源权限id
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 15:20
+     */
+    Set<Integer> findPermissionIdByUserName(String userName);
+
+    /**
+     * 根据资源权限id获取资源
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 15:24
+     */
+    List<Resource> findResourceByPermissionId(@Param("set") Set<Integer> permissionIds);
+
+    /**
+     * 通过父id获取资源列表
+     *
+     * @Author:zms
+     * @Description:
+     * @Date:2018/1/13 16:51
+     */
+    List<Resource> findResourceByParentId(Long parentId);
 }
 

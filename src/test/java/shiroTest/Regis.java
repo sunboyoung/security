@@ -1,5 +1,6 @@
 package shiroTest;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.util.MenuUtil;
 import com.zms.dao.resource.ResourceDao;
@@ -14,12 +15,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
 @ContextConfiguration(locations = {"classpath:application/application-test.xml"})
 public class Regis {
     @Autowired
@@ -54,13 +58,46 @@ public class Regis {
 
     @Test
     public void foreach() {
-        Set<String> permissions = userService.findPermissions("zms");
-        List<Resource> menu = resourceService.findMenus(permissions);
-        List<Resource> childrenMenu = resourceService.findChildrenMenu(permissions);
-        List<Resource> button = resourceService.findChildrenButton(permissions);
-        List<Resource> result = MenuUtil.initTree(menu, childrenMenu, button);
-        String json = JSONObject.toJSONString(result);
-        System.out.println(json);
+        Set<Integer> permissionids = userService.findPermissionIdByUserName("zms");
+        List<Resource> resources = userService.findResourceByPermissionId(permissionids);
 
+        JSONArray jsonArray = new JSONArray();
+        for (Resource resource : resources
+                ) {
+            if (resource.getParent_id() == 0) {
+                jsonArray.add(resource);
+            } else {
+
+            }
+
+        }
+        System.out.println(jsonArray);
+    }
+
+    @Test
+    public void zms() {
+        Set<Integer> permissionids = userService.findPermissionIdByUserName("zms");
+        List<Resource> resources = userService.findResourceByPermissionId(permissionids);
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        for (Resource resource : resources
+                ) {
+            jsonArray.add(zhejiushiw(resource.getId()));
+
+        }
+
+        System.out.println(jsonArray);
+    }
+
+    public JSONObject zhejiushiw(Long parent_id) {
+        List<Resource> resources = userService.findResourceByParentId(parent_id);
+        JSONArray array = new JSONArray();
+        for (Resource resource : resources
+                ) {
+            array.add(resource);
+        }
+        JSONObject object = new JSONObject();
+        object.put("children", array);
+        return object;
     }
 }

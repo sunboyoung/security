@@ -62,26 +62,68 @@
 
     <!-- 根据用户名查询出角色信息 -->
     <select id="findRoles" parameterType="String" resultType="String">
-        SELECT r.role FROM sys_role r
+        SELECT
+        r.role
+        FROM
+        sys_role r
+        LEFT JOIN sys_group_role gr
+        ON gr.role_id = r.id
+        LEFT JOIN sys_group g
+        ON g.id = gr.group_id
+        LEFT JOIN sys_group_user gu
+        ON gu.group_id = g.id
+        LEFT JOIN sys_user u
+        ON u.id = gu.user_id
+        WHERE u.username = #{username}
+        UNION
+        SELECT
+        r.role
+        FROM
+        sys_role r
         LEFT JOIN sys_user_role ur
-        ON r.id=ur.role_id
+        ON ur.role_id=r.id
         LEFT JOIN sys_user u
         ON u.id=ur.user_id
         WHERE u.username=#{username}
     </select>
 
-    <!-- 根据用户名查询权限信息 -->
+    <!-- 根据用户名查询操作权限信息 -->
     <select id="findPermissions" parameterType="String" resultType="String">
-        select p.permission from sys_permission p
-        left join sys_resource_permission rp
-        on rp.permission_id=p.id
-        left join sys_role_resource rr
-        on rr.resource_id =rp.resource_id
-        left join sys_user_role ur
-        on ur.role_id =rr.role_id
-        left join sys_user u
-        on u.id=ur.user_id
-        where u.username=#{userName}
+        SELECT
+        o.permission
+        FROM
+        sys_opration o
+        LEFT JOIN sys_permission_opration po
+        ON po.opration_id = o.id
+        LEFT JOIN sys_role_permission rp
+        ON rp.permission_id = po.permission_id
+        LEFT JOIN sys_role r
+        ON r.id = rp.role_id
+        LEFT JOIN sys_user_role ur
+        ON ur.role_id = r.id
+        LEFT JOIN sys_user u
+        ON u.id = ur.user_id
+        WHERE u.username = #{username}
+        UNION
+        SELECT
+        o.permission
+        FROM
+        sys_opration o
+        LEFT JOIN sys_permission_opration po
+        ON po.opration_id = o.id
+        LEFT JOIN sys_role_permission rp
+        ON rp.permission_id = po.permission_id
+        LEFT JOIN sys_role r
+        ON r.id = rp.role_id
+        LEFT JOIN sys_group_role gr
+        ON gr.role_id = r.id
+        LEFT JOIN sys_group g
+        ON g.id = gr.group_id
+        LEFT JOIN sys_group_user gu
+        ON gu.group_id = g.id
+        LEFT JOIN sys_user u
+        ON u.id = gu.user_id
+        WHERE u.username = #{username}
     </select>
 
     <!-- 获取所有的用户列表 -->
@@ -95,5 +137,78 @@
         on ur.user_id=u.id
         left join sys_role r
         on r.id=ur.role_id
+    </select>
+
+    <!-- 根据用户名获取资源权限id -->
+    <select id="findPermissionIdByUserName" parameterType="String" resultType="Integer">
+        SELECT
+        p.id
+        FROM
+        sys_permission p
+        LEFT JOIN sys_role_permission rp ON rp.permission_id = p.id
+        LEFT JOIN sys_role r ON r.id = rp.role_id
+        LEFT JOIN sys_user_role ur ON ur.role_id = r.id
+        LEFT JOIN sys_user u ON u.id = ur.user_id
+        WHERE
+        u.username = #{userName}
+        AND p.type = 'resource'
+        UNION
+        SELECT
+        p.id
+        FROM
+        sys_permission p
+        LEFT JOIN sys_role_permission rp ON rp.permission_id = p.id
+        LEFT JOIN sys_role r ON r.id = rp.role_id
+        LEFT JOIN sys_group_role gr ON gr.role_id = r.id
+        LEFT JOIN sys_group g ON g.id = gr.group_id
+        LEFT JOIN sys_group_user gu ON gu.group_id = g.id
+        LEFT JOIN sys_user u ON u.id = gu.user_id
+        WHERE
+        u.username=#{userName}
+        AND p.type='resource'
+    </select>
+
+    <!--根据资源权限id获取资源-->
+    <select id="findResourceByPermissionId" parameterType="Integer" resultType="resource">
+        SELECT
+        r.id AS id,
+        r. NAME AS title,
+        IFNULL(r.url, '') AS url,
+        IFNULL(
+        r.description,
+        '暂无描述'
+        ) AS description,
+        r.spread AS spread,
+        r.clue AS clue,
+        r.distance AS distance,
+        r.parent_id AS parent_id,
+        r.icon AS icon
+        FROM
+        sys_resource r
+        LEFT JOIN sys_permission_resource pr ON pr.resource_id = r.id
+        LEFT JOIN sys_permission p ON p.id = pr.permission_id
+        WHERE p.id IN
+        <foreach collection="set" index="index" item="permissionIds" open="(" separator="," close=")">
+            #{permissionIds}
+        </foreach>
+    </select>
+
+    <!-- 通过父id获取资源列表 -->
+    <select id="findResourceByParentId" parameterType="Long" resultType="resource">
+        SELECT
+        r.id AS id,
+        r. NAME AS title,
+        IFNULL(r.url, '') AS url,
+        IFNULL(
+        r.description,
+        '暂无描述'
+        ) AS description,
+        r.spread AS spread,
+        r.clue AS clue,
+        r.distance AS distance,
+        r.parent_id AS parent_id,
+        r.icon AS icon
+        FROM sys_resource r
+        WHERE r.parent_id=#{parentId}
     </select>
 </mapper>

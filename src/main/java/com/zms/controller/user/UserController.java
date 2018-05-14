@@ -77,8 +77,9 @@ public class UserController {
     }
 
     @RequestMapping("/hello2")
+    @ResponseBody
     public String hello2() {
-        SecurityUtils.getSubject().checkRoles("admin");
+        SecurityUtils.getSubject().checkRoles("user");
         return "success";
     }
 

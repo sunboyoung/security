@@ -130,4 +130,19 @@
         </foreach>
         AND r.type='button' AND r.parent_id>0 AND r.distance=3;
     </select>
+
+    <select id="findChildrenResource" parameterType="Long" resultType="resource">
+        SELECT
+        r.id AS id,
+        r.name AS title,
+        IFNULL (r.url,'') AS url,
+        IFNULL(r.description,'暂无描述') AS description,
+        r.spread AS spread,
+        r.clue AS clue,
+        r.distance AS distance,
+        r.parent_id AS parent_id,
+        r.icon AS icon
+        FROM sys_resource r
+        WHERE r.parent_id =#{id}
+    </select>
 </mapper>

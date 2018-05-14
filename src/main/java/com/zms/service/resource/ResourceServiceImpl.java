@@ -59,4 +59,8 @@ public class ResourceServiceImpl implements ResourceService {
         return resourceDao.findChildrenButton(permissions);
     }
 
+    public List<Resource> findChildrenResource(Long id) {
+        return resourceDao.findChildrenResource(id);
+    }
+
 }

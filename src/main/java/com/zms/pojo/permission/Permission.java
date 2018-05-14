@@ -1,20 +1,22 @@
 package com.zms.pojo.permission;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Permission implements Serializable {
     private Long id;
-    private String permission; //权限标识 程序中判断使用,如"user:create"
-    private String description; //权限描述,UI界面显示使用
+
+    private String type; //权限类型 'resource'代表资源权限 'opration'代表操作权限
+
+    private String description; //权限描述
+
+    private Date createtime;//创建时间
+
+    private String scope;//权限范围 all代表所有 only代表其中一种
+
     private Boolean available = Boolean.FALSE; //是否可用,如果不可用将不会添加给用户
 
     public Permission() {
-    }
-
-    public Permission(String permission, String description, Boolean available) {
-        this.permission = permission;
-        this.description = description;
-        this.available = available;
     }
 
     public Long getId() {
@@ -25,12 +27,12 @@ public class Permission implements Serializable {
         this.id = id;
     }
 
-    public String getPermission() {
-        return permission;
+    public String getType() {
+        return type;
     }
 
-    public void setPermission(String permission) {
-        this.permission = permission;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {
@@ -39,6 +41,22 @@ public class Permission implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
     public Boolean getAvailable() {
@@ -67,7 +85,6 @@ public class Permission implements Serializable {
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", permission='" + permission + '\'' +
                 ", description='" + description + '\'' +
                 ", available=" + available +
                 '}';
